@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "check": "tsc --noEmit --watch",
+    "compile": "tsc",
     "debug": "ts-node index.ts",
     "test": "vitest"
   },
