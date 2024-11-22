@@ -39,8 +39,6 @@ describe("sort", () => {
     ];
     
     sort(numeros)
-
-    console.log(numeros)
   })
 })
 
