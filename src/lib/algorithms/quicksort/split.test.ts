@@ -1,6 +1,5 @@
 import { describe, test, expect }  from "vitest"
 import { split } from "./split"
-import { stack } from "./stack"
 
 describe("split", () => {
   test('splits the array in lower and higher numbers', () => {

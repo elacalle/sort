@@ -1,3 +1,5 @@
+type SplittedValues = [number[], number[], number[]]
+
 const split = (list: number[]): [number[], number[], number[]] => {
   const [pivot, ...tail] = list
   
@@ -12,3 +14,4 @@ const filter = (list: number[], condition: (x: number) => boolean) => {
 }
 
 export { split }
+export type { SplittedValues }

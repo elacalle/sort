@@ -16,8 +16,6 @@ describe("sort", () => {
       69, 26, 62, 80, 44, 97, 55, 86, 51, 89
     ];
 
-    sort(numeros)
-    
-    expect(numeros).toBe(numeros.sort((a ,b) => a - b))
+    expect(sort(numeros)).toEqual(numeros.sort((a ,b) => a - b))
   })
 })

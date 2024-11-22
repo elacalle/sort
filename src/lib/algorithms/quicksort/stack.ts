@@ -32,4 +32,4 @@ const stack = () => {
   }
 
 export { stack }
-export type { StackType } 
+export type { StackType, Address } 
