@@ -1,5 +1,6 @@
 import { describe, test, expect }  from "vitest"
-import { sort, split, stack } from "./quicksort"
+import { sort, split } from "./quicksort"
+import { stack } from "./stack"
 
 describe("split", () => {
   test('splits the array in lower and higher numbers', () => {
@@ -17,14 +18,6 @@ describe("split", () => {
 
 describe("sort", () => {
   test("sort values in asc order", () => {
-    let numbers = [6,13,5,4,44,2,14]
-
-    sort(numbers)
-
-    expect(numbers).toEqual([2,4,5,6,13,14,44])
-  })
-
-  test("xx", () => {
     const numeros = [
       23, 5, 77, 92, 16, 33, 49, 60, 87, 3, 
       41, 99, 27, 11, 58, 75, 19, 46, 84, 2, 
@@ -37,8 +30,10 @@ describe("sort", () => {
       56, 28, 76, 42, 100, 66, 37, 91, 53, 74, 
       69, 26, 62, 80, 44, 97, 55, 86, 51, 89
     ];
-    
+
     sort(numeros)
+    
+    expect(numeros).toBe(numeros.sort((a ,b) => a - b))
   })
 })
 

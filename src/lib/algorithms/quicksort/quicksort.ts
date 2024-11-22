@@ -1,3 +1,5 @@
+import { stack, StackType } from './stack'
+
 const split = (list: number[], stack: StackType) => {
   const range = stack({action: 'POP'})
   
@@ -23,40 +25,6 @@ const split = (list: number[], stack: StackType) => {
   }
 }
 
-type Address = [number, number] 
-
-type StackType = (action: AddAction | PopAction ) => Address | undefined | null
-
-type AddAction = {
-  action: 'ADD',
-  value: Address
-}
-
-type PopAction = {
-  action: 'POP',
-}
-
-
-const stack = () => {
-  const stack: Array<Address> = []
-  
-  const action: StackType = (command) => {
-    const {action} = command
-
-    switch(action) {
-      case 'ADD':
-          stack.push(command.value)
-        break;
-      case 'POP': 
-          return stack.shift()
-      default:
-        throw 'Unknown command'
-    }
-  }
-
-  return [stack, action] as const 
-}
-
 const sort = (list: number[]) => {
   const [sortStack, action] = stack()
   action({action: "ADD", value: [0, list.length - 1]})  
@@ -71,4 +39,4 @@ const filter = (list: number[], condition: (x: number) => boolean) => {
   return list.filter(condition)
 }
 
-export { split, stack, sort }
+export { split, sort }
