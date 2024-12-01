@@ -1,15 +1,34 @@
-type SplittedValues = [number[], number[], number[]]
+import Token from "../../token"
 
-const split = (list: number[]): [number[], number[], number[]] => {
+type SplittedValues = [number[], number[], number[]] | [Token[], Token[], Token[]]
+
+const split = (list: number[] | Token[]): SplittedValues => {
   const [pivot, ...tail] = list
   
-  const minValues = filter(tail, (x) => x <= pivot)
-  const maxValues = filter(tail, (x) => x > pivot)
+  const minValues = filter(tail, (x) => { 
+    if(typeof x == 'number' && typeof pivot == 'number') {
+      return x <= pivot   
+    } else if (typeof x != 'number' && typeof pivot != 'number') {
+      return x.lowerThanOrEqual(pivot)
+    } else {
+      throw 'Invalid type'
+    }
+  })
 
-  return [minValues, [pivot], maxValues]
-}
+  const maxValues = filter(tail, (x) => { 
+    if(typeof x == 'number' && typeof pivot == 'number') {
+      return x > pivot   
+    } else if (typeof x != 'number' && typeof pivot != 'number') {
+      return x.greatherThan(pivot)
+    } else {
+      throw 'Invalid type'
+    }
+  })
 
-const filter = (list: number[], condition: (x: number) => boolean) => {
+  return [minValues, [pivot], maxValues] as SplittedValues
+} 
+
+const filter = (list: (number | Token)[], condition: (x: number | Token) => boolean) => {
   return list.filter(condition)
 }
 

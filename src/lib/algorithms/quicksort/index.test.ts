@@ -1,5 +1,6 @@
 import { describe, test, expect }  from "vitest"
 import sort from "./index"
+import Token from "../../token";
 
 describe("sort", () => {
   test("sort values in asc order", () => {
@@ -17,5 +18,31 @@ describe("sort", () => {
     ];
 
     expect(sort(numeros)).toEqual(numeros.sort((a ,b) => a - b))
+  })
+
+  test('sorts tokens', () => {
+    let tokens = [
+      new Token([1,1,2]),
+      new Token([4,2]), 
+      new Token([1]),
+      new Token([8,0]),
+      new Token([4,0,1]), 
+      new Token([1,0,2]),
+      new Token([4,0,2]),
+      new Token([6,0,2])
+    ]
+
+    const result = sort(tokens)?.map((x) => (x as Token).getValue())
+
+    expect(result).toEqual([
+      [1],
+      [1, 0, 2],
+      [1, 1 ,2],
+      [4, 0, 1],
+      [4, 0, 2],
+      [4, 2],
+      [6, 0, 2],
+      [8, 0]
+    ])
   })
 })

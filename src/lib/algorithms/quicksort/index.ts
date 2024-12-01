@@ -1,8 +1,9 @@
+import Token from "../../token"
 import { split, SplittedValues } from "./split"
 import { Address, stack, StackType } from "./stack"
 
-export default (originalList: number[]) => {
-  const list = [...originalList]
+export default (originalList: (number[] | Token[])) => {
+  const list = [...originalList] as  number[] | Token[]
   const [sortStack, action] = stack()
   action({action: "ADD", value: [0, list.length - 1]})  
   
@@ -32,7 +33,7 @@ const pushRemaningStack = (splittedValues: SplittedValues, address: Address, act
    if (maxValues.length > 1) { action({action: 'ADD', value: [low + minValues.length + 1, low + minValues.length + maxValues.length]}) }
 }
 
-const copyValues = (list: number[], splittedValues: SplittedValues, address: Address) => {
+const copyValues = (list: number[] | Token[], splittedValues: SplittedValues, address: Address) => {
   const[x, y] = address
   const [minValues, pivot, maxValues] = splittedValues
   const sortedValues = [...minValues, ...pivot, ...maxValues]
