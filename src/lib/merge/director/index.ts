@@ -3,28 +3,28 @@ import Evaluator from "../evaluator";
 import { Run } from "../run";
 
 class Director {
-  private runners: Array<Run>
+  private runs: Array<Run>
   private evaluator: Evaluator
   private closed: Array<number>
   private output: IOutput<unknown>
 
-  constructor(evaluator: Evaluator, runners: Array<Run>, output: IOutput<unknown>) {
-    this.runners = runners
+  constructor(evaluator: Evaluator, runs: Array<Run>, output: IOutput<unknown>) {
+    this.runs = runs
     this.evaluator = evaluator
     this.closed = []
     this.output = output
   }
 
   validate() {
-    const runners: Record<number, number> = {}
+    const runs: Record<number, number> = {}
 
-    this.runners.forEach((runner) => {
-      if(!runners[runner.id]) { runners[runner.id] = 0 }
+    this.runs.forEach((run) => {
+      if(!runs[run.id]) { runs[run.id] = 0 }
 
-      runners[runner.id] = runners[runner.id] + 1
+      runs[run.id] = runs[run.id] + 1
     })
 
-    for(const [key, value] of Object.entries(runners)) {
+    for(const [key, value] of Object.entries(runs)) {
       if(value > 1) {
         throw `Run id ${key} its duplicated`
       }
@@ -35,32 +35,32 @@ class Director {
     this.validate()
 
     while (this.isActive()) {
-      this.runners.forEach((runner) => {
-        if(!this.closed.includes(runner.id)) {
-          runner.call()  
+      this.runs.forEach((run) => {
+        if(!this.closed.includes(run.id)) {
+          run.call()  
         }
       })
 
-      const currentRunner = this.evaluator.current
+      const currentRun = this.evaluator.current
 
-      if(currentRunner) {
-        this.output.write(currentRunner.currentToken().getValue())
+      if(currentRun) {
+        this.output.write(currentRun.currentToken().getValue())
 
-        currentRunner.movePointer()
+        currentRun.movePointer()
 
-        if(currentRunner.isClosed()) { this.closeRunner(currentRunner) }
+        if(currentRun.isClosed()) { this.closeRun(currentRun) }
 
         this.evaluator.current = undefined
       }
     }
   }
 
-  private closeRunner(runner: Run) {
-    this.closed.push(runner.id)
+  private closeRun(run: Run) {
+    this.closed.push(run.id)
   }
 
   private isActive() {
-    return this.closed.length < this.runners.length
+    return this.closed.length < this.runs.length
   }
 }
 
