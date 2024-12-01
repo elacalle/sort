@@ -17,7 +17,6 @@ export default (originalList: number[]) => {
 
     pushRemaningStack(splittedValues, address, action)
     copyValues(list, splittedValues, address)
-
   } while (sortStack.length)
 
   return list
