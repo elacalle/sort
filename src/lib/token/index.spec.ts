@@ -10,7 +10,7 @@ describe("Token", () => {
       expect(sourceToken.lowerThan(targetToken)).toBe(true)
     })
 
-    test("source token is grether than target token", () => {
+    test("source token is greather than target token", () => {
       const sourceToken = new Token([5])
       const targetToken = new Token([4, 10])
 
