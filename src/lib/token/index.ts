@@ -1,6 +1,8 @@
+const EMPTY_VALUE = 0 // NULL
+
 class Token {
   protected values: Array<number>
-  public signature: number
+  protected signature: number
   
   constructor(values: Array<number>) {
     this.values = values
@@ -34,23 +36,21 @@ class Token {
   }
 
   compare(target: Token, condition: (x: number, y: number) => boolean ) {
+    let index = 0
     let meetCondition = false
-    const length = this.values.length < target.values.length ? this.values.length : target.values.length
+    let sourceValue = 0
+    let targetValue = 0
+    const length = this.values.length > target.values.length 
+      ? this.values.length : target.values.length
+    
+    do {
+      sourceValue = this.values[index] || EMPTY_VALUE
+      targetValue = target.values[index] || EMPTY_VALUE
 
-    for(let i = 0; i < length; i++) {
-      const sourceValue = this.values[i]
-      const targetValue = target.values[i]
+      index++
+    } while(index < length && sourceValue == targetValue)
 
-      if(sourceValue == targetValue) { continue }
-      
-      if (condition(sourceValue, targetValue)) {
-        meetCondition = true
-        break
-      } else {
-        meetCondition = false
-        break
-      }
-    }
+    meetCondition = condition(sourceValue, targetValue)
 
     return meetCondition
   }

@@ -4,6 +4,13 @@ import Token from "."
 describe("Token", () => {
   describe("lowerThan", () => {
     test("source token greater than target token", () => {
+      const sourceToken = new Token([1])
+      const targetToken = new Token([1, 2])
+
+      expect(sourceToken.lowerThan(targetToken)).toBe(true)
+    })
+
+    test("source token greater than target token", () => {
       const sourceToken = new Token([4, 2])
       const targetToken = new Token([4, 1])
 
