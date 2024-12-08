@@ -1,0 +1,69 @@
+import { Readable } from "stream";
+import readline from "readline";
+import { IBucket } from "../bucket";
+import Token from "../../token";
+import sort from "../../algorithms/quicksort";
+
+// Bytes 10kb
+const CHUNK_SIZE = 10_024
+
+class Loader {
+  private chunks: number 
+  private chunkSize: number = 0
+  private chunkLimit: number = 1
+  private readLine: readline.Interface
+  private bucket: IBucket
+  private buckets: IBucket[] = []
+
+  constructor(bucket: IBucket, stream: NodeJS.ReadableStream, chunks = CHUNK_SIZE) {
+    this.bucket = bucket
+    this.readLine = readline.createInterface({
+      input: stream,
+      crlfDelay: Infinity
+    })
+    this.chunks = chunks
+  }
+
+  async call() {
+    const iterator = this.readLine[Symbol.asyncIterator]()
+    let hasNext: boolean | undefined = true 
+    let bucket = this.bucket.instance()
+    let tokens: Token[] = []
+
+    do {
+      const el = await iterator.next()
+      hasNext = !el.done
+
+      if(el.value) {
+        const value = (el.value as string).toString()
+        this.chunkSize += value.length
+
+        tokens.push(Token.fromString(value))
+      }
+
+      if(this.chunkSize >= this.nextChunk() || !hasNext) {
+        bucket.addBulk(sort(tokens) as Token[])
+        bucket.dump()
+        this.buckets.push(bucket)
+
+        bucket = this.bucket.instance()
+        tokens = []
+        this.nextChunkLimit()
+      }
+    } while(hasNext && hasNext)
+  }
+
+  private nextChunkLimit() {
+    this.chunkLimit++
+  }
+
+  private nextChunk() {
+    return this.chunkLimit * this.chunks
+  }
+
+  getBuckets() {
+    return this.buckets
+  }
+}
+
+export default Loader
