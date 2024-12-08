@@ -2,7 +2,7 @@ import Token from "../../token"
 import { split, SplittedValues } from "./split"
 import { Address, stack, StackType } from "./stack"
 
-export default (originalList: (number[] | Token[])) => {
+const quickSort = (originalList: (number[] | Token[])) => {
   const list = [...originalList] as  number[] | Token[]
   const [sortStack, action] = stack()
   action({action: "ADD", value: [0, list.length - 1]})  
@@ -42,3 +42,5 @@ const copyValues = (list: number[] | Token[], splittedValues: SplittedValues, ad
     list[i] = sortedValues[i - x]
   }
 }
+
+export default quickSort
