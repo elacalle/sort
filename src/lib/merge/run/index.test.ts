@@ -2,6 +2,7 @@ import { describe, test, expect, vi }  from "vitest"
 import Token from "../../token"
 import { Run, RunFactory } from "../run"
 import Evaluator from "../evaluator"
+import DummyBucket from "../../extract/bucket/dummyBucket"
 
 describe('Evaluator', () => {
   test("Pick smallest value", () => {
@@ -10,15 +11,21 @@ describe('Evaluator', () => {
     const runs: Array<Run> = [] 
     
     const first = runFactory.instance()
-    first.setTokens([new Token([4,1]), new Token([5])])
+    const firstDummyBucket = new DummyBucket()
+    firstDummyBucket.addBulk([new Token([4,1]), new Token([5])])
+    first.setBucket(firstDummyBucket)
     runs.push(first)
     
     const second = runFactory.instance()
-    second.setTokens([new Token([3,1]), new Token([4,2])])
+    const secondDummyBucket = new DummyBucket()
+    secondDummyBucket.addBulk([new Token([3,1]), new Token([4,2])])
+    second.setBucket(secondDummyBucket)
     runs.push(second)
     
     const third = runFactory.instance()
-    third.setTokens([new Token([6]), new Token([7,1])])
+    const thirdDummyBucket = new DummyBucket()
+    thirdDummyBucket.addBulk([new Token([6]), new Token([7,1])])
+    third.setBucket(thirdDummyBucket)
     runs.push(third)
     
     runs.forEach(run => run.call())
@@ -35,10 +42,14 @@ describe('Evaluator', () => {
     const first = runFactory.instance()
     const second = runFactory.instance()
 
-    first.setTokens([new Token([4,1]), new Token([5])])
+    const firstDummyBucket = new DummyBucket()
+    firstDummyBucket.addBulk([new Token([4,1]), new Token([5])])
+    first.setBucket(firstDummyBucket)
     first.call()
 
-    second.setTokens([new Token([6])])
+    const secondDummyBucket = new DummyBucket()
+    secondDummyBucket.addBulk([new Token([6])])
+    second.setBucket(secondDummyBucket)
     second.call()
 
     expect(spy).toHaveBeenCalledTimes(1)

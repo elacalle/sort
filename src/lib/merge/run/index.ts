@@ -1,3 +1,5 @@
+import { IBucket } from "../../extract/bucket"
+import DummyBucket from "../../extract/bucket/dummyBucket"
 import Token from "../../token"
 import Evaluator from "../evaluator"
 
@@ -5,15 +7,16 @@ class Run {
   id: number
   tokens: Array<Token> = []
   private evaluator: Evaluator
-  private pointer: number = 0
+  private bucket: IBucket
 
   constructor(number: number, evaluator: Evaluator) {
     this.id = number
     this.evaluator = evaluator
+    this.bucket = new DummyBucket()
   }
 
-  setTokens(tokens: Array<Token>) {
-    this.tokens = tokens
+  setBucket(bucket: IBucket) {
+    this.bucket = bucket
   }
 
   call() {
@@ -38,15 +41,15 @@ class Run {
   }
 
   currentToken() {
-    return this.tokens[this.pointer]
+    return this.bucket.current()
   }
 
   isClosed() {
-    return this.pointer > this.tokens.length - 1
+    return !this.bucket.hasNext()
   }
 
   movePointer() {
-    this.pointer++
+    this.bucket.next();
   }
 }
 

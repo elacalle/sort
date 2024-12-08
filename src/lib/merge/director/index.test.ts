@@ -4,6 +4,7 @@ import Evaluator from "../evaluator"
 import Token from "../../token"
 import Director from "."
 import DummyOutput from "../../output/dummyOutput"
+import DummyBucket from "../../extract/bucket/dummyBucket"
 
 describe('Director', () => {
   describe('validate', () => {
@@ -12,11 +13,15 @@ describe('Director', () => {
       const runs: Run[] = []
 
       const firstRun = new Run(1, evaluator)
-      firstRun.setTokens([new Token([4,1]), new Token([5])])
+      const firstDummyBucket = new DummyBucket()
+      firstDummyBucket.addBulk([new Token([4,1]), new Token([5])])
+      firstRun.setBucket(firstDummyBucket)
       runs.push(firstRun)
     
       const secondRun = new Run(1, evaluator)
-      secondRun.setTokens([new Token([4,2]), new Token([5,1])])
+      const secondDummyBucket = new DummyBucket()
+      secondDummyBucket.addBulk([new Token([4,2]), new Token([5,1])])
+      secondRun.setBucket(secondDummyBucket)
       runs.push(secondRun)
 
       const dummy = new DummyOutput()
@@ -31,15 +36,21 @@ describe('Director', () => {
     const runs: Run[] = []
 
     const firstRun = new Run(1, evaluator)
-    firstRun.setTokens([new Token([4,1]), new Token([5])])
+    const firstDummyBucket = new DummyBucket()
+    firstDummyBucket.addBulk([new Token([4,1]), new Token([5])])
+    firstRun.setBucket(firstDummyBucket)
     runs.push(firstRun)
     
     const secondRun = new Run(2, evaluator)
-    secondRun.setTokens([new Token([4,2]), new Token([5,1])])
+    const secondDummyBucket = new DummyBucket()
+    secondDummyBucket.addBulk([new Token([4,2]), new Token([5,1])])
+    secondRun.setBucket(secondDummyBucket)
     runs.push(secondRun)
 
     const thirdRun = new Run(3, evaluator)
-    thirdRun.setTokens([new Token([1,2]), new Token([3])])
+    const thirdDummyBucket = new DummyBucket()
+    thirdDummyBucket.addBulk([new Token([1,2]), new Token([3])])
+    thirdRun.setBucket(thirdDummyBucket)
     runs.push(thirdRun)
 
     const dummy = new DummyOutput()
