@@ -1,13 +1,13 @@
 import { describe, test, expect }  from "vitest"
 import Loader from "."
 import { Readable } from "stream"
-import DummyBucket from "../bucket/dummyBucket"
+import bucketFactory from "../bucket/factory"
 
 describe("Loader", () => {
   test("receives the sorted bucket", async () => {
     const text = `The\nProject\nGutenberg\neBook\nof\nThe\nArt\nof\nWar`
     const stream = Readable.from(text)
-    const loader = new Loader(new DummyBucket(), stream, 32)
+    const loader = new Loader(bucketFactory("dummy"), stream, 32)
     const sortedBucketText = []
 
     await loader.call()

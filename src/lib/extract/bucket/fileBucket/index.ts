@@ -1,7 +1,7 @@
 import { IBucket } from ".."
 import Token from "../../../token"
 
-class DummyBucket implements IBucket {
+class FileBucket implements IBucket {
   private id: number = 0
   private tokens: Token[] = []
   private index: number = 0
@@ -31,4 +31,4 @@ class DummyBucket implements IBucket {
   }
 }
 
-export default DummyBucket
+export default FileBucket

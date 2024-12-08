@@ -12,11 +12,11 @@ class Loader {
   private chunkSize: number = 0
   private chunkLimit: number = 1
   private readLine: readline.Interface
-  private bucket: IBucket
+  private bucketFactory: () => IBucket
   private buckets: IBucket[] = []
 
-  constructor(bucket: IBucket, stream: NodeJS.ReadableStream, chunks = CHUNK_SIZE) {
-    this.bucket = bucket
+  constructor(bucketFactory: () => IBucket, stream: NodeJS.ReadableStream, chunks = CHUNK_SIZE) {
+    this.bucketFactory = bucketFactory
     this.readLine = readline.createInterface({
       input: stream,
       crlfDelay: Infinity
@@ -27,7 +27,7 @@ class Loader {
   async call() {
     const iterator = this.readLine[Symbol.asyncIterator]()
     let hasNext: boolean | undefined = true 
-    let bucket = this.bucket.instance()
+    let bucket = this.bucketFactory()
     let tokens: Token[] = []
 
     do {
@@ -46,7 +46,7 @@ class Loader {
         bucket.dump()
         this.buckets.push(bucket)
 
-        bucket = this.bucket.instance()
+        bucket = this.bucketFactory()
         tokens = []
         this.nextChunkLimit()
       }

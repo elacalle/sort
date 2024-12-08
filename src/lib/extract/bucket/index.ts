@@ -10,8 +10,6 @@ interface IBucket {
   dump(): void
 
   current(): Token
-
-  instance(): IBucket
 }
 
 
