@@ -58,6 +58,20 @@ class Token {
   getValue() {
     return this.values
   }
+
+  toString() {
+    return String.fromCharCode(...this.values)
+  }
+
+  static fromString(value: string) {
+    const digits = []
+
+    for(let i = 0; i < value.length; i++) {
+      digits.push(value.charCodeAt(i))
+    }
+
+    return new Token(digits)
+  }
 }
 
 export default Token
