@@ -11,19 +11,19 @@ describe('Evaluator', () => {
     const runs: Array<Run> = [] 
     
     const first = runFactory.instance()
-    const firstDummyBucket = new DummyBucket()
+    const firstDummyBucket = new DummyBucket(0)
     firstDummyBucket.addBulk([new Token([4,1]), new Token([5])])
     first.setBucket(firstDummyBucket)
     runs.push(first)
     
     const second = runFactory.instance()
-    const secondDummyBucket = new DummyBucket()
+    const secondDummyBucket = new DummyBucket(1)
     secondDummyBucket.addBulk([new Token([3,1]), new Token([4,2])])
     second.setBucket(secondDummyBucket)
     runs.push(second)
     
     const third = runFactory.instance()
-    const thirdDummyBucket = new DummyBucket()
+    const thirdDummyBucket = new DummyBucket(2)
     thirdDummyBucket.addBulk([new Token([6]), new Token([7,1])])
     third.setBucket(thirdDummyBucket)
     runs.push(third)
@@ -42,12 +42,12 @@ describe('Evaluator', () => {
     const first = runFactory.instance()
     const second = runFactory.instance()
 
-    const firstDummyBucket = new DummyBucket()
+    const firstDummyBucket = new DummyBucket(1)
     firstDummyBucket.addBulk([new Token([4,1]), new Token([5])])
     first.setBucket(firstDummyBucket)
     first.call()
 
-    const secondDummyBucket = new DummyBucket()
+    const secondDummyBucket = new DummyBucket(2)
     secondDummyBucket.addBulk([new Token([6])])
     second.setBucket(secondDummyBucket)
     second.call()

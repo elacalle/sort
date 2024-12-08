@@ -12,7 +12,7 @@ class Run {
   constructor(number: number, evaluator: Evaluator) {
     this.id = number
     this.evaluator = evaluator
-    this.bucket = new DummyBucket()
+    this.bucket = new DummyBucket(0)
   }
 
   setBucket(bucket: IBucket) {
