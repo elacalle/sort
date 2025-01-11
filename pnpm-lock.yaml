@@ -11,6 +11,9 @@ importers:
       '@types/node':
         specifier: ^22.5.1
         version: 22.5.1
+      mock-fs:
+        specifier: ^5.4.1
+        version: 5.4.1
       ts-node:
         specifier: ^10.9.2
         version: 10.9.2(@types/node@22.5.1)(typescript@5.5.4)
@@ -408,6 +411,10 @@ packages:
   mimic-fn@4.0.0:
     resolution: {integrity: sha512-vqiC06CuhBTUdZH+RYl8sFrL096vA45Ok5ISO6sE/Mr1jRbGH4Csnhi8f3wKVl7x8mO4Au7Ir9D3Oyv1VYMFJw==}
     engines: {node: '>=12'}
+
+  mock-fs@5.4.1:
+    resolution: {integrity: sha512-sz/Q8K1gXXXHR+qr0GZg2ysxCRr323kuN10O7CtQjraJsFDJ4SJ+0I5MzALz7aRp9lHk8Cc/YdsT95h9Ka1aFw==}
+    engines: {node: '>=12.0.0'}
 
   ms@2.1.2:
     resolution: {integrity: sha512-sGkPx+VjMtmA6MX27oA4FBFELFCZZ4S4XqeGOXCv68tT+jb3vk/RyaKWP0PTKyWtmLSM0b+adUTEvbs1PEaH2w==}
@@ -899,6 +906,8 @@ snapshots:
   merge-stream@2.0.0: {}
 
   mimic-fn@4.0.0: {}
+
+  mock-fs@5.4.1: {}
 
   ms@2.1.2: {}
 
