@@ -31,7 +31,7 @@ class Director {
     }
   }
 
-  call() {
+  async call() {
     this.validate()
 
     while (this.isActive()) {
@@ -44,9 +44,9 @@ class Director {
       const currentRun = this.evaluator.current
 
       if(currentRun) {
-        this.output.write(currentRun.currentToken().getValue())
+        this.output.write(currentRun.currentToken().toString())
 
-        currentRun.movePointer()
+        await currentRun.movePointer()
 
         if(currentRun.isClosed()) { this.closeRun(currentRun) }
 
