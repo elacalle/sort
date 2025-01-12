@@ -42,7 +42,8 @@ class Loader {
       }
 
       if(this.chunkSize >= this.nextChunk() || !hasNext) {
-        bucket.addBulk(sort(tokens) as Token[])
+        const sorted = sort(tokens) as Token[]
+        bucket.addBulk(sorted)
         bucket.dump()
         this.buckets.push(bucket)
 
@@ -50,7 +51,7 @@ class Loader {
         tokens = []
         this.nextChunkLimit()
       }
-    } while(hasNext && hasNext)
+    } while(hasNext)
   }
 
   private nextChunkLimit() {
