@@ -28,7 +28,7 @@ const pushRemaningStack = (splittedValues: SplittedValues, address: Address, act
   const[low,] = address
 
    // adds low range
-   if (minValues.length > 1) { action({action: 'ADD', value: [low, low + minValues.length]}) }
+   if (minValues.length > 1) { action({action: 'ADD', value: [low, low + minValues.length - 1]}) }
    // adds high range
    if (maxValues.length > 1) { action({action: 'ADD', value: [low + minValues.length + 1, low + minValues.length + maxValues.length]}) }
 }
@@ -39,7 +39,10 @@ const copyValues = (list: number[] | Token[], splittedValues: SplittedValues, ad
   const sortedValues = [...minValues, ...pivot, ...maxValues]
 
   for(let i = x; i <= y; i++) {
-    list[i] = sortedValues[i - x]
+    // FIXME: if statement in order to avoid null pointer error
+    if(sortedValues[i - x]) {
+      list[i] = sortedValues[i - x]
+    }
   }
 }
 

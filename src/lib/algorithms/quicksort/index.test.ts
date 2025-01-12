@@ -45,4 +45,24 @@ describe("sort", () => {
       [8, 0]
     ])
   })
+
+  test('sorts tokens', () => {
+    let tokens = [
+      Token.fromString('of'),
+      Token.fromString('but'),
+      Token.fromString('of'),
+      Token.fromString('their'),
+      Token.fromString('of')
+    ]
+
+    const result = sort(tokens)?.map((x) => (x as Token).getValue())
+
+    expect(result).toEqual([
+      [98, 117, 116],
+      [111, 102],
+      [111, 102],
+      [111, 102],
+      [116, 104, 101, 105, 114]
+    ])
+  })
 })
