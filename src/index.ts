@@ -1,0 +1,35 @@
+import Loader from "./lib/extract/loader"
+import fs, { read } from "fs"
+import readline from "readline"
+import bucketFactory from "./lib/extract/bucket/factory";
+import { Run, RunFactory } from "./lib/merge/run";
+import Evaluator from "./lib/merge/evaluator";
+import Director from "./lib/merge/director";
+import StdOutput from "./lib/output/stdOutput";
+
+const main = async () => {
+  const runs: Run[] = []
+  const evaluator = new Evaluator()
+  const stream = fs.createReadStream("words.txt");
+
+  const bucketFileFactory = bucketFactory('file')
+  const loader = new Loader(bucketFileFactory, stream)
+  await loader.call()
+
+  const buckets = loader.getBuckets()
+  const runFactory = new RunFactory(evaluator)
+
+  buckets.forEach((bucket) => {
+    const run = runFactory.instance()
+    run.setBucket(bucket)
+    runs.push(run)
+  })
+
+  const director = new Director(evaluator, runs, new StdOutput())
+
+  await director.call()
+
+  buckets.forEach((bucket) => bucket.drop())
+}
+
+main()
