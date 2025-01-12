@@ -45,6 +45,11 @@ const fileReader = (path: string) => {
       } else {
         position++
       }
+
+      if(value.toString("hex") == "efbbbf") {
+        position += value.byteLength
+        continue
+      }
        
       if(value) {
         token.push(value)

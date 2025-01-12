@@ -34,6 +34,23 @@ describe("file reader", () => {
     afterAll(mock.restore)
   })
 
+  describe('BOM', () => {
+    beforeEach(() => {
+      mock({
+        'test.txt': "﻿foo"
+      })
+    })
+
+    test('ignores BOM', async () => {
+      const {read} = fileReader("test.txt")
+  
+      let result = await read()
+      expect(result.token).toBe("")
+    })
+
+    afterAll(mock.restore)
+  })
+
   describe('reads special characters', () => {
     beforeEach(() => {
       mock({
