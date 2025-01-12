@@ -2,7 +2,7 @@ import * as fs from 'fs/promises'
 import byteDetector from './byteDetector'
 
 
-interface Token {
+export interface Token {
   token?: string,
   done: boolean 
 }
