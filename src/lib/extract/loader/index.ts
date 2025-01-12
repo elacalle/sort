@@ -1,4 +1,3 @@
-import { Readable } from "stream";
 import readline from "readline";
 import { IBucket } from "../bucket";
 import Token from "../../token";
