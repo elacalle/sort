@@ -14,7 +14,7 @@ class DummyBucket implements IBucket {
     this.tokens = [...tokens]
   }
   
-  next() {
+  async next() {
     this.index += 1
   }
   
@@ -28,6 +28,10 @@ class DummyBucket implements IBucket {
   
   current() {
     return this.tokens[this.index]
+  }
+
+  drop() {
+    this.tokens = []
   }
 }
 
