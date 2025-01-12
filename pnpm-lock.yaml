@@ -8,6 +8,9 @@ importers:
 
   .:
     devDependencies:
+      '@types/mock-fs':
+        specifier: ^4.13.4
+        version: 4.13.4
       '@types/node':
         specifier: ^22.5.1
         version: 22.5.1
@@ -287,6 +290,9 @@ packages:
 
   '@types/estree@1.0.5':
     resolution: {integrity: sha512-/kYRxGDLWzHOB7q+wtSUQlFrtcdUccpfy+X+9iMBpHK8QLLhx2wIPYuS5DYtR9Wa/YlZAbIovy7qVdB1Aq6Lyw==}
+
+  '@types/mock-fs@4.13.4':
+    resolution: {integrity: sha512-mXmM0o6lULPI8z3XNnQCpL0BGxPwx1Ul1wXYEPBGl4efShyxW2Rln0JOPEWGyZaYZMM6OVXM/15zUuFMY52ljg==}
 
   '@types/node@22.5.1':
     resolution: {integrity: sha512-KkHsxej0j9IW1KKOOAA/XBA0z08UFSrRQHErzEfA3Vgq57eXIMYboIlHJuYIfd+lwCQjtKqUu3UnmKbtUc9yRw==}
@@ -762,6 +768,10 @@ snapshots:
   '@tsconfig/node16@1.0.4': {}
 
   '@types/estree@1.0.5': {}
+
+  '@types/mock-fs@4.13.4':
+    dependencies:
+      '@types/node': 22.5.1
 
   '@types/node@22.5.1':
     dependencies:

@@ -1,48 +1,64 @@
-import * as fs from 'fs'
+import * as fs from 'fs/promises'
 import byteDetector from './byteDetector'
 
-let position = 0
 
-let buffer = Buffer.alloc(1)
+interface Token {
+  token?: string,
+  done: boolean 
+}
 
-fs.open("words.txt", "r", async (err, fd) => {
-    const read = (buffer: Buffer = Buffer.alloc(1), numberOfBytes: number = 1) => {
-        return new Promise<Buffer | null>((resolve, reject) => {
-            fs.read(fd, buffer, 0, numberOfBytes, position, (err, bytesRead, data) => {
-                if(err) {
-                    reject()
-                }
+const fileReader = (path: string) => {
+  let position = 0
+  let buffer = Buffer.alloc(1)
+  let done = false
 
-                if(bytesRead == 0) {
-                    fs.close(fd)
-                    resolve(null)
-                }
+  const read : () => Promise<Token> = async () => {
+    let token: Array<Buffer> = []
 
-                resolve(data)
-            })
-        })
+    if(done) return Promise.resolve({ token: undefined, done })
+
+    const fileHandle = await fs.open(path, "r")
+    const readFile = async (buffer: Buffer = Buffer.alloc(1), numberOfBytes: number = 1) => {
+      return await fileHandle.read(buffer, 0, numberOfBytes, position)
     }
 
     while(true) {
-        let value = await read()
+      let readData = await readFile()
+      let value = readData.buffer
+       
+      if(readData.bytesRead == 0) { 
+        done = true
+        break
+      }
 
-        if(!value) {
-            break
-        }
-
-        const numberOfBytes = byteDetector(value)
-
-        if(numberOfBytes != 1) {
-            buffer = Buffer.alloc(numberOfBytes)
-            value = await read(buffer, numberOfBytes)
-            position += numberOfBytes
-        } else {
-            position++
-        }
-
-        if(value) {
-            process.stdout.write(`${value.toString()}`)
-        }
+      if(!value || value.toString() == "\r" || value.toString() == "\n") {
+        position++
+        break
+      }
+       
+      const numberOfBytes = byteDetector(value)
+       
+      if(numberOfBytes != 1) {
+        buffer = Buffer.alloc(numberOfBytes)
+        value = (await readFile(buffer, numberOfBytes)).buffer
+        position += numberOfBytes
+      } else {
+        position++
+      }
+       
+      if(value) {
+        token.push(value)
+      }
     }
-})
 
+    await fileHandle.close()
+
+    return Promise.resolve({ token: stringify(token), done })
+  }
+
+  return { read }
+}
+
+const stringify = (buffers: Array<Buffer>) => buffers.map((buffer) => buffer.toString()).join("")
+
+export default fileReader
