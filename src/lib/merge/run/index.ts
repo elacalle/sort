@@ -48,8 +48,8 @@ class Run {
     return !this.bucket.hasNext()
   }
 
-  movePointer() {
-    this.bucket.next();
+  async movePointer() {
+    await this.bucket.next();
   }
 }
 
