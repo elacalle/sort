@@ -44,8 +44,9 @@ class Director {
       const currentRun = this.evaluator.current
 
       if(currentRun) {
-        this.output.write(currentRun.currentToken().toString())
-
+        const value = currentRun.currentToken().toString()
+        if(value.length) this.output.write(value)
+        
         await currentRun.movePointer()
 
         if(currentRun.isClosed()) { this.closeRun(currentRun) }
