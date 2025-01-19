@@ -30,7 +30,7 @@ const main = async () => {
 
   const runs: Run[] = []
   const evaluator = new Evaluator()
-  const stream = fs.createReadStream("words.txt");
+  const stream = fs.createReadStream(filePath);
 
   const bucketFileFactory = bucketFactory('file')
   const loader = new Loader(bucketFileFactory, stream)
