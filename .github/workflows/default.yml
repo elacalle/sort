@@ -20,3 +20,7 @@ jobs:
         run: curl -fsSL https://get.pnpm.io/install.sh | SHELL="$(which bash)" bash -
       - name: reload source
         run: source /home/runner/.bashrc
+      - name: install packages
+        run: pnpm install
+      - name: Prettier
+        run: pnpm exec prettier --check src/**/*.ts
