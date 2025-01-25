@@ -1,35 +1,35 @@
-type Address = [number, number] 
+type Address = [number, number]
 
-type StackType = (action: AddAction | PopAction ) => Address | undefined | null
+type StackType = (action: AddAction | PopAction) => Address | undefined | null
 
 type AddAction = {
-  action: 'ADD',
+  action: 'ADD'
   value: Address
 }
 
 type PopAction = {
-  action: 'POP',
+  action: 'POP'
 }
 
 const stack = () => {
-    const stack: Array<Address> = []
-    
-    const action: StackType = (command) => {
-      const {action} = command
-  
-      switch(action) {
-        case 'ADD':
-            stack.push(command.value)
-          break;
-        case 'POP': 
-            return stack.shift()
-        default:
-          throw 'Unknown command'
-      }
+  const stack: Array<Address> = []
+
+  const action: StackType = (command) => {
+    const { action } = command
+
+    switch (action) {
+      case 'ADD':
+        stack.push(command.value)
+        break
+      case 'POP':
+        return stack.shift()
+      default:
+        throw 'Unknown command'
     }
-  
-    return [stack, action] as const 
   }
 
+  return [stack, action] as const
+}
+
 export { stack }
-export type { StackType, Address } 
+export type { StackType, Address }

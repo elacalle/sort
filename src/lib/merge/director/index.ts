@@ -1,6 +1,6 @@
-import { IOutput } from "../../output";
-import Evaluator from "../evaluator";
-import { Run } from "../run";
+import { IOutput } from '../../output'
+import Evaluator from '../evaluator'
+import { Run } from '../run'
 
 class Director {
   private runs: Array<Run>
@@ -8,7 +8,11 @@ class Director {
   private closed: Array<number>
   private output: IOutput<unknown>
 
-  constructor(evaluator: Evaluator, runs: Array<Run>, output: IOutput<unknown>) {
+  constructor(
+    evaluator: Evaluator,
+    runs: Array<Run>,
+    output: IOutput<unknown>
+  ) {
     this.runs = runs
     this.evaluator = evaluator
     this.closed = []
@@ -19,13 +23,15 @@ class Director {
     const runs: Record<number, number> = {}
 
     this.runs.forEach((run) => {
-      if(!runs[run.id]) { runs[run.id] = 0 }
+      if (!runs[run.id]) {
+        runs[run.id] = 0
+      }
 
       runs[run.id] = runs[run.id] + 1
     })
 
-    for(const [key, value] of Object.entries(runs)) {
-      if(value > 1) {
+    for (const [key, value] of Object.entries(runs)) {
+      if (value > 1) {
         throw `Run id ${key} its duplicated`
       }
     }
@@ -36,20 +42,22 @@ class Director {
 
     while (this.isActive()) {
       this.runs.forEach((run) => {
-        if(!this.closed.includes(run.id)) {
-          run.call()  
+        if (!this.closed.includes(run.id)) {
+          run.call()
         }
       })
 
       const currentRun = this.evaluator.current
 
-      if(currentRun) {
+      if (currentRun) {
         const value = currentRun.currentToken().toString()
-        if(value.length) this.output.write(value)
-        
+        if (value.length) this.output.write(value)
+
         await currentRun.movePointer()
 
-        if(currentRun.isClosed()) { this.closeRun(currentRun) }
+        if (currentRun.isClosed()) {
+          this.closeRun(currentRun)
+        }
 
         this.evaluator.current = undefined
       }

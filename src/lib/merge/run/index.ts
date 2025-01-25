@@ -1,7 +1,7 @@
-import { IBucket } from "../../extract/bucket"
-import DummyBucket from "../../extract/bucket/dummyBucket"
-import Token from "../../token"
-import Evaluator from "../evaluator"
+import { IBucket } from '../../extract/bucket'
+import DummyBucket from '../../extract/bucket/dummyBucket'
+import Token from '../../token'
+import Evaluator from '../evaluator'
 
 class Run {
   id: number
@@ -20,10 +20,12 @@ class Run {
   }
 
   call() {
-    if(!this.evaluator.current) { this.evaluator.setCurrentRun(this) }
-    if(this.myself()) return
-    
-    if(this.canUpdate()) {
+    if (!this.evaluator.current) {
+      this.evaluator.setCurrentRun(this)
+    }
+    if (this.myself()) return
+
+    if (this.canUpdate()) {
       this.evaluator.setCurrentRun(this)
     }
   }
@@ -35,7 +37,9 @@ class Run {
   private canUpdate() {
     const evaluatorToken = this.evaluator.current?.currentToken()
 
-    if(!evaluatorToken) { return false }
+    if (!evaluatorToken) {
+      return false
+    }
 
     return this.currentToken().lowerThan(evaluatorToken)
   }
@@ -49,7 +53,7 @@ class Run {
   }
 
   async movePointer() {
-    await this.bucket.next();
+    await this.bucket.next()
   }
 }
 

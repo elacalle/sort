@@ -1,13 +1,13 @@
-import { describe, test, expect }  from "vitest"
-import Loader from "."
-import { Readable } from "stream"
-import bucketFactory from "../bucket/factory"
+import { describe, test, expect } from 'vitest'
+import Loader from '.'
+import { Readable } from 'stream'
+import bucketFactory from '../bucket/factory'
 
-describe("Loader", () => {
-  test("receives the sorted bucket", async () => {
+describe('Loader', () => {
+  test('receives the sorted bucket', async () => {
     const text = `The\nProject\nGutenberg\neBook\nof\nThe\nArt\nof\nWar`
     const stream = Readable.from(text)
-    const loader = new Loader(bucketFactory("dummy"), stream, 32)
+    const loader = new Loader(bucketFactory('dummy'), stream, 32)
     const sortedBucketText = []
 
     await loader.call()
@@ -17,8 +17,16 @@ describe("Loader", () => {
     do {
       sortedBucketText.push(bucket.current().toString())
       bucket.next()
-    } while(bucket.hasNext())
+    } while (bucket.hasNext())
 
-    expect(sortedBucketText).toEqual(['Art', 'Gutenberg', 'Project', 'The', 'The', 'eBook', 'of'])
+    expect(sortedBucketText).toEqual([
+      'Art',
+      'Gutenberg',
+      'Project',
+      'The',
+      'The',
+      'eBook',
+      'of'
+    ])
   })
 })

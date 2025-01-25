@@ -1,10 +1,9 @@
 import * as fs from 'fs/promises'
 import byteDetector from './byteDetector'
 
-
 export interface Token {
-  token?: string,
-  done: boolean 
+  token?: string
+  done: boolean
 }
 
 const fileReader = (path: string) => {
@@ -12,33 +11,36 @@ const fileReader = (path: string) => {
   let buffer = Buffer.alloc(1)
   let done = false
 
-  const read : () => Promise<Token> = async () => {
+  const read: () => Promise<Token> = async () => {
     let token: Array<Buffer> = []
 
-    if(done) return Promise.resolve({ token: undefined, done })
+    if (done) return Promise.resolve({ token: undefined, done })
 
-    const fileHandle = await fs.open(path, "r")
-    const readFile = async (buffer: Buffer = Buffer.alloc(1), numberOfBytes: number = 1) => {
+    const fileHandle = await fs.open(path, 'r')
+    const readFile = async (
+      buffer: Buffer = Buffer.alloc(1),
+      numberOfBytes: number = 1
+    ) => {
       return await fileHandle.read(buffer, 0, numberOfBytes, position)
     }
 
-    while(true) {
+    while (true) {
       let readData = await readFile()
       let value = readData.buffer
-       
-      if(readData.bytesRead == 0) { 
+
+      if (readData.bytesRead == 0) {
         done = true
         break
       }
 
-      if(!value || value.toString() == "\r" || value.toString() == "\n") {
+      if (!value || value.toString() == '\r' || value.toString() == '\n') {
         position++
         break
       }
-       
+
       const numberOfBytes = byteDetector(value)
-       
-      if(numberOfBytes != 1) {
+
+      if (numberOfBytes != 1) {
         buffer = Buffer.alloc(numberOfBytes)
         value = (await readFile(buffer, numberOfBytes)).buffer
         position += numberOfBytes
@@ -46,12 +48,12 @@ const fileReader = (path: string) => {
         position++
       }
 
-      if(value.toString("hex") == "efbbbf") {
+      if (value.toString('hex') == 'efbbbf') {
         position += value.byteLength
         continue
       }
-       
-      if(value) {
+
+      if (value) {
         token.push(value)
       }
     }
@@ -64,6 +66,7 @@ const fileReader = (path: string) => {
   return { read }
 }
 
-const stringify = (buffers: Array<Buffer>) => buffers.map((buffer) => buffer.toString()).join("")
+const stringify = (buffers: Array<Buffer>) =>
+  buffers.map((buffer) => buffer.toString()).join('')
 
 export default fileReader

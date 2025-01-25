@@ -1,20 +1,24 @@
-import readline from "readline";
-import { IBucket } from "../bucket";
-import Token from "../../token";
-import sort from "../../algorithms/quicksort";
+import readline from 'readline'
+import { IBucket } from '../bucket'
+import Token from '../../token'
+import sort from '../../algorithms/quicksort'
 
 // Bytes 10kb
 const CHUNK_SIZE = 10_024
 
 class Loader {
-  private chunks: number 
+  private chunks: number
   private chunkSize: number = 0
   private chunkLimit: number = 1
   private readLine: readline.Interface
   private bucketFactory: () => IBucket
   private buckets: IBucket[] = []
 
-  constructor(bucketFactory: () => IBucket, stream: NodeJS.ReadableStream, chunks = CHUNK_SIZE) {
+  constructor(
+    bucketFactory: () => IBucket,
+    stream: NodeJS.ReadableStream,
+    chunks = CHUNK_SIZE
+  ) {
     this.bucketFactory = bucketFactory
     this.readLine = readline.createInterface({
       input: stream,
@@ -25,7 +29,7 @@ class Loader {
 
   async call() {
     const iterator = this.readLine[Symbol.asyncIterator]()
-    let hasNext: boolean | undefined = true 
+    let hasNext: boolean | undefined = true
     let bucket = this.bucketFactory()
     let tokens: Token[] = []
 
@@ -33,14 +37,14 @@ class Loader {
       const el = await iterator.next()
       hasNext = !el.done
 
-      if(el.value) {
+      if (el.value) {
         const value = (el.value as string).toString()
         this.chunkSize += value.length
 
         tokens.push(Token.fromString(value))
       }
 
-      if(this.chunkSize >= this.nextChunk() || !hasNext) {
+      if (this.chunkSize >= this.nextChunk() || !hasNext) {
         const sorted = sort(tokens) as Token[]
         bucket.addBulk(sorted)
         bucket.dump()
@@ -50,7 +54,7 @@ class Loader {
         tokens = []
         this.nextChunkLimit()
       }
-    } while(hasNext)
+    } while (hasNext)
   }
 
   private nextChunkLimit() {

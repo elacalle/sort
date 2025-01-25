@@ -1,17 +1,17 @@
-import Loader from "./lib/extract/loader"
-import fs from "fs"
+import Loader from './lib/extract/loader'
+import fs from 'fs'
 import { program } from 'commander'
-import bucketFactory from "./lib/extract/bucket/factory";
-import { Run, RunFactory } from "./lib/merge/run";
-import Evaluator from "./lib/merge/evaluator";
-import Director from "./lib/merge/director";
-import StdOutput from "./lib/output/stdOutput";
-import resolvePath from "./lib/path/resolve";
+import bucketFactory from './lib/extract/bucket/factory'
+import { Run, RunFactory } from './lib/merge/run'
+import Evaluator from './lib/merge/evaluator'
+import Director from './lib/merge/director'
+import StdOutput from './lib/output/stdOutput'
+import resolvePath from './lib/path/resolve'
 
 const main = async () => {
   let filePath = ''
 
-  program.name("sort").description('sort UTF-8 files').version("0.1")
+  program.name('sort').description('sort UTF-8 files').version('0.1')
   program.helpOption('-h', 'help')
 
   program.argument('<file>', 'file path').action((path) => {
@@ -30,7 +30,7 @@ const main = async () => {
 
   const runs: Run[] = []
   const evaluator = new Evaluator()
-  const stream = fs.createReadStream(filePath);
+  const stream = fs.createReadStream(filePath)
 
   const bucketFileFactory = bucketFactory('file')
   const loader = new Loader(bucketFileFactory, stream)

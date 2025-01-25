@@ -1,4 +1,4 @@
-import { Run } from "../run";
+import { Run } from '../run'
 
 class Evaluator {
   current?: Run

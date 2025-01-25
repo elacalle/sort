@@ -1,4 +1,4 @@
-import Token from "../../token";
+import Token from '../../token'
 
 interface IBucket {
   addBulk(tokens: Token[]): void
@@ -13,7 +13,5 @@ interface IBucket {
 
   current(): Token
 }
-
-
 
 export { IBucket }
