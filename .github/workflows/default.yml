@@ -11,16 +11,22 @@ env:
 jobs:
   setup:
     runs-on: [ubuntu-24.04]
+    strategy:
+      matrix:
+        node-version: [20]
     steps:
       - name: Checkout the repository
         uses: actions/checkout@v4
-      - name: Installs node
-        run: sudo apt install nodejs
-      - name: Installs pnpm
-        run: curl -fsSL https://get.pnpm.io/install.sh | SHELL="$(which bash)" bash -
-      - name: reload source
-        run: source /home/runner/.bashrc
-      - name: install packages
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'pnpm'
+      - name: Install pnpm
+           uses: pnpm/action-setup@v4
+           with:
+             version: 10
+      - name: Install dependencies
         run: pnpm install
       - name: Prettier
         run: pnpm exec prettier --check src/**/*.ts
