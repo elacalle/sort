@@ -4,7 +4,7 @@ import Token from '../../token'
 
 describe('sort', () => {
   test('sort values in asc order', () => {
-    const numeros = [
+    const values = [
       23, 5, 77, 92, 16, 33, 49, 60, 87, 3, 41, 99, 27, 11, 58, 75, 19, 46, 84,
       2, 39, 71, 95, 14, 50, 8, 64, 29, 90, 6, 36, 78, 52, 12, 68, 25, 81, 4,
       43, 96, 32, 18, 54, 67, 22, 88, 10, 40, 73, 1, 30, 93, 65, 15, 48, 70, 17,
@@ -13,7 +13,7 @@ describe('sort', () => {
       44, 97, 55, 86, 51, 89
     ]
 
-    expect(sort(numeros)).toEqual(numeros.sort((a, b) => a - b))
+    expect(sort(values)).toEqual(values.sort((a, b) => a - b))
   })
 
   test('sorts tokens', () => {
