@@ -27,3 +27,9 @@ jobs:
         run: pnpm install
       - name: Prettier
         run: pnpm exec prettier --check src/**/*.ts
+  lint:
+    needs: setup
+    runs-on: ubuntu-latest
+    steps:
+      - name: Prettier
+        run: pnpm exec prettier --check src/**/*.ts
