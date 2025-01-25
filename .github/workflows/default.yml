@@ -5,9 +5,6 @@ on:
     types:
       - opened
 
-env:
-  ENV: '$HOME/.bashrc'
-
 jobs:
   setup:
     runs-on: [ubuntu-24.04]
