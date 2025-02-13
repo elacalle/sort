@@ -27,6 +27,8 @@ jobs:
         run: pnpm install
       - name: Prettier
         run: pnpm exec prettier --check src/**/*.ts
+      - name: Typescript types check
+        run: pnpm exec tsc --noEmit
   test:
     runs-on: [ubuntu-24.04]
     strategy:
