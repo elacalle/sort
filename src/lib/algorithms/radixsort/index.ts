@@ -54,9 +54,10 @@ const group = (values: Array<Array<number>>, level: number) => {
 }
 
 const stackByGroup = (
-  grouped: Map<number, Array<Array<number>>>
+  grouped: Map<number, Array<Array<number>>>,
+  startIndex: number | undefined = 0
 ): Array<[number, number]> => {
-  let index = 0
+  let index = startIndex || 0
   const stack: Array<Array<number>> = []
 
   grouped.forEach((value) => {
@@ -68,13 +69,18 @@ const stackByGroup = (
   return stack
 }
 
-interface StackElement {
+export interface StackElement {
   level: number
   position: [number, number]
 }
 
-const sort = (values: Array<Array<number>>) => {
-  let stack: Array<StackElement> = [{ level: 0, position: [0, values.length] }]
+const sort = (
+  values: Array<Array<number>>,
+  externalStack: Array<StackElement> | undefined = undefined
+) => {
+  let stack: Array<StackElement> = externalStack || [
+    { level: 0, position: [0, values.length] }
+  ]
 
   do {
     const stackElement = stack.pop()
@@ -86,8 +92,6 @@ const sort = (values: Array<Array<number>>) => {
     const [start, end] = stackElement.position
     let startIndex = start
     const arrayToSort = values.slice(start, end)
-
-    console.log(stackElement)
 
     if (
       arrayToSort
@@ -112,15 +116,17 @@ const sort = (values: Array<Array<number>>) => {
       })
     })
 
-    const nextStack = stackByGroup(groupedResult).map((position) => ({
-      level: stackElement.level + 1,
-      position
-    }))
+    const nextStack = stackByGroup(groupedResult, start).map((position) => {
+      return {
+        level: stackElement.level + 1,
+        position
+      }
+    })
 
     if (nextStack.length == 0) {
       continue
     } else {
-      stack = nextStack
+      stack = [...stack, ...nextStack]
     }
   } while (stack.length)
 
