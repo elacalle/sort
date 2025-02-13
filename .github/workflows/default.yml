@@ -50,3 +50,5 @@ jobs:
         run: pnpm install
       - name: Vitest
         run: pnpm run test
+      - name: Typescript types check
+        run: pnpm exec tsc --noEmit
