@@ -17,25 +17,26 @@ const group = (
   const numericValues: Array<number> = []
   const valuesGroupedByOrder: Map<number, Array<Array<number>>> = new Map()
 
-  const groupedValues: Map<number, Array<Array<number>>> = values.reduce(
-    (previous: Map<number, Array<Array<number>> | undefined>, value) => {
-      const postionValue = value.at(level)
-      const key =
-        postionValue != undefined && postionValue >= 0 ? value.at(level) : -1
+  const groupedValues: Map<number, Array<Array<number>> | undefined> =
+    values.reduce(
+      (previous: Map<number, Array<Array<number>> | undefined>, value) => {
+        const postionValue = value.at(level)
+        const key =
+          postionValue != undefined && postionValue >= 0 ? value.at(level) : -1
 
-      if (typeof key == 'number' && !previous.has(key)) {
-        numericValues.push(key)
-        previous.set(key, [])
-      }
+        if (typeof key == 'number' && !previous.has(key)) {
+          numericValues.push(key)
+          previous.set(key, [])
+        }
 
-      if (typeof key == 'number' && previous.has(key)) {
-        previous.get(key)?.push(value)
-      }
+        if (typeof key == 'number' && previous.has(key)) {
+          previous.get(key)?.push(value)
+        }
 
-      return previous
-    },
-    new Map()
-  )
+        return previous
+      },
+      new Map()
+    )
 
   const minValue = min(numericValues)
   const maxValue = max(numericValues)
@@ -49,7 +50,7 @@ const group = (
   }
 
   return valuesGroupedByOrder.size == 1 &&
-    (valuesGroupedByOrder.values().next().value || []).filter((x) =>
+    (valuesGroupedByOrder.values().next().value || []).filter((x: number[]) =>
       x.at(level)
     ).length < 1
     ? new Map()
