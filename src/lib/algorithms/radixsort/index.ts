@@ -10,7 +10,10 @@ const min = (numbers: Array<number>) => {
   }, Number.MAX_SAFE_INTEGER)
 }
 
-const group = (values: Array<Array<number>>, level: number) => {
+const group = (
+  values: Array<Array<number>>,
+  level: number
+): Map<number, number[][]> => {
   const numericValues: Array<number> = []
   const valuesGroupedByOrder: Map<number, Array<Array<number>>> = new Map()
 
@@ -58,7 +61,7 @@ const stackByGroup = (
   startIndex: number | undefined = 0
 ): Array<[number, number]> => {
   let index = startIndex || 0
-  const stack: Array<Array<number>> = []
+  const stack: Array<[number, number]> = []
 
   grouped.forEach((value) => {
     stack.push([index, index + value.length])
