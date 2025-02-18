@@ -1,3 +1,5 @@
+import Token from '../../token'
+
 const max = (numbers: Array<number>) => {
   return numbers.reduce((prev, current) => {
     return current > prev ? current : prev
@@ -10,33 +12,29 @@ const min = (numbers: Array<number>) => {
   }, Number.MAX_SAFE_INTEGER)
 }
 
-const group = (
-  values: Array<Array<number>>,
-  level: number
-): Map<number, number[][]> => {
+const group = (values: Array<Token>, level: number): Map<number, Token[]> => {
   const numericValues: Array<number> = []
-  const valuesGroupedByOrder: Map<number, Array<Array<number>>> = new Map()
+  const valuesGroupedByOrder: Map<number, Token[]> = new Map()
 
-  const groupedValues: Map<number, Array<Array<number>> | undefined> =
-    values.reduce(
-      (previous: Map<number, Array<Array<number>> | undefined>, value) => {
-        const postionValue = value.at(level)
-        const key =
-          postionValue != undefined && postionValue >= 0 ? value.at(level) : -1
+  const groupedValues: Map<number, Token[] | undefined> = values.reduce(
+    (previous: Map<number, Array<Token> | undefined>, value) => {
+      const postionValue = value.at(level)
+      const key =
+        postionValue != undefined && postionValue >= 0 ? value.at(level) : -1
 
-        if (typeof key == 'number' && !previous.has(key)) {
-          numericValues.push(key)
-          previous.set(key, [])
-        }
+      if (typeof key == 'number' && !previous.has(key)) {
+        numericValues.push(key)
+        previous.set(key, [])
+      }
 
-        if (typeof key == 'number' && previous.has(key)) {
-          previous.get(key)?.push(value)
-        }
+      if (typeof key == 'number' && previous.has(key)) {
+        previous.get(key)?.push(value)
+      }
 
-        return previous
-      },
-      new Map()
-    )
+      return previous
+    },
+    new Map()
+  )
 
   const minValue = min(numericValues)
   const maxValue = max(numericValues)
@@ -50,7 +48,7 @@ const group = (
   }
 
   return valuesGroupedByOrder.size == 1 &&
-    (valuesGroupedByOrder.values().next().value || []).filter((x: number[]) =>
+    (valuesGroupedByOrder.values().next().value || []).filter((x: Token) =>
       x.at(level)
     ).length < 1
     ? new Map()
@@ -58,7 +56,7 @@ const group = (
 }
 
 const stackByGroup = (
-  grouped: Map<number, Array<Array<number>>>,
+  grouped: Map<number, Token[]>,
   startIndex: number | undefined = 0
 ): Array<[number, number]> => {
   let index = startIndex || 0
@@ -79,7 +77,7 @@ export interface StackElement {
 }
 
 const sort = (
-  values: Array<Array<number>>,
+  values: Token[],
   externalStack: Array<StackElement> | undefined = undefined
 ) => {
   let stack: Array<StackElement> = externalStack || [

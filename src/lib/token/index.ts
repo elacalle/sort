@@ -71,6 +71,10 @@ class Token {
     return String.fromCharCode(...this.values)
   }
 
+  at(index: number) {
+    return this.values.at(index)
+  }
+
   static fromString(value: string) {
     const digits = []
 
