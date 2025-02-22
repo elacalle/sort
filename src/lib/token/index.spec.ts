@@ -128,4 +128,11 @@ describe('Token', () => {
       expect(sourceToken.lowerThanOrEqual(targetToken)).toBe(false)
     })
   })
+
+  test('different words doesnt generate same hash', () => {
+    const targetToken = Token.fromString('from')
+    const sourceToken = Token.fromString('hsin')
+
+    expect(sourceToken.lowerThanOrEqual(targetToken)).toBe(false)
+  })
 })

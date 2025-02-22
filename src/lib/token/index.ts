@@ -9,14 +9,16 @@ class Token {
     this.signature = this.generateSignature()
   }
 
+  hashArray(array: Token) {
+    return this.values.reduce((hash, num, index) => {
+      return hash + num * Math.pow(31, index)
+    }, 0)
+  }
+
   private generateSignature() {
     let signature = 0
 
-    for (let i = this.values.length; i > 0; i--) {
-      signature = i * this.values[this.values.length - i] + signature
-    }
-
-    return signature
+    return this.hashArray(this)
   }
 
   greatherThan(target: Token) {

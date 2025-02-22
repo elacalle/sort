@@ -5,7 +5,7 @@ import { Address, stack, StackType } from './stack'
 const quickSort = (originalList: number[] | Token[]) => {
   const list = [...originalList] as number[] | Token[]
   const [sortStack, action] = stack()
-  action({ action: 'ADD', value: [0, list.length - 1] })
+  action({ action: 'ADD', value: [0, list.length] })
 
   do {
     const address = action({ action: 'POP' })
@@ -15,7 +15,7 @@ const quickSort = (originalList: number[] | Token[]) => {
     }
 
     const [x, y] = address
-    const chunk = list.slice(x, y + 1)
+    const chunk = list.slice(x, y)
     const splittedValues = split(chunk)
 
     pushRemaningStack(splittedValues, address, action)
@@ -35,15 +35,16 @@ const pushRemaningStack = (
 
   // adds low range
   if (minValues.length > 1) {
-    action({ action: 'ADD', value: [low, low + minValues.length - 1] })
+    action({ action: 'ADD', value: [low, low + minValues.length] })
   }
+
   // adds high range
   if (maxValues.length > 1) {
     action({
       action: 'ADD',
       value: [
         low + minValues.length + 1,
-        low + minValues.length + maxValues.length
+        low + minValues.length + maxValues.length + 1
       ]
     })
   }
@@ -58,11 +59,12 @@ const copyValues = (
   const [minValues, pivot, maxValues] = splittedValues
   const sortedValues = [...minValues, ...pivot, ...maxValues]
 
-  for (let i = x; i <= y; i++) {
-    // FIXME: if statement in order to avoid null pointer error
-    if (sortedValues[i - x]) {
-      list[i] = sortedValues[i - x]
-    }
+  if (sortedValues.length != y - x) {
+    throw 'Allocated address missmatch'
+  }
+
+  for (let i = x; i < y; i++) {
+    list[i] = sortedValues[i - x]
   }
 }
 
