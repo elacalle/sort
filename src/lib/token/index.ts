@@ -2,23 +2,15 @@ const EMPTY_VALUE = 0 // NULL
 
 class Token {
   protected values: Array<number>
-  protected signature: number
 
   constructor(values: Array<number>) {
     this.values = values
-    this.signature = this.generateSignature()
   }
 
   hashArray(array: Token) {
     return this.values.reduce((hash, num, index) => {
       return hash + num * Math.pow(31, index)
     }, 0)
-  }
-
-  private generateSignature() {
-    let signature = 0
-
-    return this.hashArray(this)
   }
 
   greatherThan(target: Token) {
@@ -36,7 +28,18 @@ class Token {
   }
 
   equal(target: Token) {
-    return this.signature == target.signature
+    let matches = true
+    if (target.values.length != this.values.length) return false
+
+    for (let i = 0; i < this.values.length; i++) {
+      if (this.values.at(i) != target.values.at(i)) {
+        matches = false
+
+        break
+      }
+    }
+
+    return matches
   }
 
   lowerThanOrEqual(target: Token) {
