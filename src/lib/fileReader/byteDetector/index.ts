@@ -1,3 +1,14 @@
+const BYTES = {
+  1: 0,
+  2: 192,
+  3: 224,
+  4: 240
+}
+
+const BYTE_UNIT = 8
+
+type BytesPositions = keyof typeof BYTES
+
 const byteDetector = (buffer: Buffer) => {
   const firstByte = buffer.at(0)
 
@@ -5,16 +16,19 @@ const byteDetector = (buffer: Buffer) => {
     throw 'Wrong alloc'
   }
 
-  const byte = toBinary(firstByte)
-
-  if (byte.startsWith('0')) return 1
-  if (byte.startsWith('110')) return 2
-  if (byte.startsWith('1110')) return 3
-  if (byte.startsWith('11110')) return 4
+  // Order it's important do not change!
+  if (has(firstByte, 4)) return 4
+  if (has(firstByte, 3)) return 3
+  if (has(firstByte, 2)) return 2
+  if (has(firstByte, 1)) return 1
 
   throw 'Invalid byte'
 }
 
-const toBinary = (decimal: number) => decimal.toString(2).padStart(8, '0')
+const has = (byte: number, nBytes: BytesPositions) => {
+  const movePosition = BYTE_UNIT - nBytes
+
+  return byte >> movePosition === BYTES[nBytes] >> movePosition
+}
 
 export default byteDetector
