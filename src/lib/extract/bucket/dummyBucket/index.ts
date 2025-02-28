@@ -23,7 +23,7 @@ class DummyBucket implements IBucket {
   }
 
   dump() {
-    // This class doest not have a external IO
+    // This class doest not have an external IO
   }
 
   current() {
