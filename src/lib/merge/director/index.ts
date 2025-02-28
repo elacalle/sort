@@ -5,7 +5,6 @@ import { Run } from '../run'
 class Director {
   private runs: Array<Run>
   private evaluator: Evaluator
-  private closed: Array<number>
   private output: IOutput<unknown>
 
   constructor(
@@ -15,7 +14,6 @@ class Director {
   ) {
     this.runs = runs
     this.evaluator = evaluator
-    this.closed = []
     this.output = output
   }
 
@@ -42,34 +40,19 @@ class Director {
 
     while (this.isActive()) {
       this.runs.forEach((run) => {
-        if (!this.closed.includes(run.id)) {
+        if (!this.evaluator.isClosedRun(run)) {
           run.call()
         }
       })
 
-      const currentRun = this.evaluator.current
-
-      if (currentRun) {
-        const value = currentRun.currentToken().toString()
-        if (value.length) this.output.write(value)
-
-        await currentRun.movePointer()
-
-        if (currentRun.isClosed()) {
-          this.closeRun(currentRun)
-        }
-
-        this.evaluator.current = undefined
-      }
+      await this.evaluator.call((value) => {
+        if (value) this.output.write(value)
+      })
     }
   }
 
-  private closeRun(run: Run) {
-    this.closed.push(run.id)
-  }
-
   private isActive() {
-    return this.closed.length < this.runs.length
+    return this.evaluator.closed.size < this.runs.length
   }
 }
 

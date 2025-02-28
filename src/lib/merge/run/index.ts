@@ -23,6 +23,7 @@ class Run {
     if (!this.evaluator.current) {
       this.evaluator.setCurrentRun(this)
     }
+
     if (this.myself()) return
 
     if (this.canUpdate()) {
