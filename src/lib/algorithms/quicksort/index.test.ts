@@ -13,7 +13,9 @@ describe('sort', () => {
       44, 97, 55, 86, 51, 89
     ]
 
-    expect(sort(values)).toEqual(values.sort((a, b) => a - b))
+    expect(sort(values.map((x) => new Token([x])))).toEqual(
+      values.sort((a, b) => a - b).map((x) => new Token([x]))
+    )
   })
 
   test('sorts tokens', () => {

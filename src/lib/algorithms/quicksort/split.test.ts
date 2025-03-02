@@ -4,13 +4,21 @@ import Token from '../../token'
 
 describe('split', () => {
   test('splits the array in lower and higher numbers', () => {
-    let numbers = [6, 13, 5, 4, 44, 2, 14]
+    let numbers = [
+      new Token([6]),
+      new Token([13]),
+      new Token([5]),
+      new Token([4]),
+      new Token([44]),
+      new Token([2]),
+      new Token([14])
+    ]
 
     const [min, pivot, max] = split(numbers)
 
-    expect(min).toEqual([5, 4, 2])
-    expect(pivot).toEqual([6])
-    expect(max).toEqual([13, 44, 14])
+    expect(min).toEqual([new Token([5]), new Token([4]), new Token([2])])
+    expect(pivot).toEqual([new Token([6])])
+    expect(max).toEqual([new Token([13]), new Token([44]), new Token([14])])
   })
 
   test('splits tokens', () => {
