@@ -1,7 +1,6 @@
 import readline from 'readline'
 import { IBucket } from '../bucket'
 import Token from '../../token'
-import sort from '../../algorithms/quicksort'
 
 // Bytes 10kb
 const CHUNK_SIZE = 10_024
@@ -13,10 +12,12 @@ class Loader {
   private readLine: readline.Interface
   private bucketFactory: () => IBucket
   private buckets: IBucket[] = []
+  private sort: (tokens: Token[]) => Token[] | undefined
 
   constructor(
     bucketFactory: () => IBucket,
     stream: NodeJS.ReadableStream,
+    sort: (tokens: Token[]) => Token[] | undefined,
     chunks = CHUNK_SIZE
   ) {
     this.bucketFactory = bucketFactory
@@ -25,6 +26,7 @@ class Loader {
       crlfDelay: Infinity
     })
     this.chunks = chunks
+    this.sort = sort
   }
 
   async call() {
@@ -45,7 +47,7 @@ class Loader {
       }
 
       if (this.chunkSize >= this.nextChunk() || !hasNext) {
-        const sorted = sort(tokens) as Token[]
+        const sorted = this.sort(tokens) as Token[]
         bucket.addBulk(sorted)
         bucket.dump()
         this.buckets.push(bucket)
