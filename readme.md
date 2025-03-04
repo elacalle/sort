@@ -19,3 +19,4 @@
 - Add support for sorting files while respecting the English locale.
 - Optimize the **external merge algorithm** to avoid **O(n)** complexity and improve sorting time.
 - Add a installation script to install it in the system
+- Improve Async error handling
