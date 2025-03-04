@@ -13,8 +13,8 @@ describe('sort', () => {
       44, 97, 55, 86, 51, 89
     ]
 
-    expect(sort(values.map((x) => new Token([x])))).toEqual(
-      values.sort((a, b) => a - b).map((x) => new Token([x]))
+    expect(sort(values.map((value) => new Token([value])))).toEqual(
+      values.sort((a, b) => a - b).map((value) => new Token([value]))
     )
   })
 })
