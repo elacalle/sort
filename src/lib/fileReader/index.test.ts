@@ -3,7 +3,7 @@ import mock from 'mock-fs'
 import fileReader from '.'
 
 describe('file reader', () => {
-  describe('Tokenize lines', () => {
+  describe('tokenize lines', () => {
     beforeEach(() => {
       mock({
         'test.txt': 'foo\rbar\nbaz'

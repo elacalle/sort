@@ -35,9 +35,9 @@ describe('split', () => {
 
     const [min, pivot, max] = split(tokens) as [Token[], Token[], Token[]]
 
-    expect(min.map((x) => x.getValue())).toEqual([[1], [1, 0, 2]])
-    expect(pivot.map((x) => x.getValue())).toEqual([[1, 1, 2]])
-    expect(max.map((x) => x.getValue())).toEqual([
+    expect(min.map((value) => value.getValue())).toEqual([[1], [1, 0, 2]])
+    expect(pivot.map((value) => value.getValue())).toEqual([[1, 1, 2]])
+    expect(max.map((value) => value.getValue())).toEqual([
       [4, 2],
       [4, 0, 1],
       [4, 0, 2],

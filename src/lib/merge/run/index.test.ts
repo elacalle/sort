@@ -5,7 +5,7 @@ import Evaluator from '../evaluator'
 import DummyBucket from '../../extract/bucket/dummyBucket'
 
 describe('Evaluator', () => {
-  test('Pick smallest value', () => {
+  test('pick smallest value', () => {
     const evaluator = new Evaluator()
     const runFactory = new RunFactory(evaluator)
     const runs: Array<Run> = []
@@ -33,7 +33,7 @@ describe('Evaluator', () => {
     expect(evaluator.current).toBe(second)
   })
 
-  test('Skips grather values', () => {
+  test('skips grather values', () => {
     const evaluator = new Evaluator()
     const spy = vi.spyOn(evaluator, 'setCurrentRun')
 
