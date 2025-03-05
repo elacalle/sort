@@ -7,12 +7,6 @@ class Token {
     this.values = values
   }
 
-  hashArray(array: Token) {
-    return this.values.reduce((hash, num, index) => {
-      return hash + num * Math.pow(31, index)
-    }, 0)
-  }
-
   greatherThan(target: Token) {
     return this.compare(
       target,
