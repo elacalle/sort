@@ -1,10 +1,12 @@
 import Token from '../../token'
 import { split, SplittedValues } from './split'
-import { Address, stack, StackType } from './stack'
+import { stack, StackType } from '../../stack'
+
+type Address = [number, number]
 
 const quickSort = (originalList: Token[]) => {
   const list = [...originalList]
-  const [sortStack, action] = stack()
+  const [sortStack, action] = stack<Address>()
   action({ action: 'ADD', value: [0, list.length] })
 
   do {
@@ -28,7 +30,7 @@ const quickSort = (originalList: Token[]) => {
 const pushRemaningStack = (
   splittedValues: SplittedValues,
   address: Address,
-  action: StackType
+  action: StackType<Address>
 ) => {
   const [minValues, _, maxValues] = splittedValues
   const [low] = address

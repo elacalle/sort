@@ -1,20 +1,18 @@
-type Address = [number, number]
+type StackType<T> = (action: AddAction<T> | PopAction) => T | undefined | null
 
-type StackType = (action: AddAction | PopAction) => Address | undefined | null
-
-type AddAction = {
+type AddAction<T> = {
   action: 'ADD'
-  value: Address
+  value: T
 }
 
 type PopAction = {
   action: 'POP'
 }
 
-const stack = () => {
-  const stack: Array<Address> = []
+const stack = <T>() => {
+  const stack: Array<T> = []
 
-  const action: StackType = (command) => {
+  const action: StackType<T> = (command) => {
     const { action } = command
 
     switch (action) {
@@ -32,4 +30,4 @@ const stack = () => {
 }
 
 export { stack }
-export type { StackType, Address }
+export type { StackType }

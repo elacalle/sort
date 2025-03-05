@@ -1,4 +1,11 @@
 import Token from '../../token'
+import { stack as useStack, StackType } from '../../stack'
+import { ac } from 'vitest/dist/chunks/reporters.C_zwCd4j'
+
+type Stack = {
+  level: number
+  position: [number, number]
+}
 
 const max = (numbers: Array<number>) => {
   return numbers.reduce((prev, current) => {
@@ -76,16 +83,12 @@ export interface StackElement {
   position: [number, number]
 }
 
-const sort = (
-  values: Token[],
-  externalStack: Array<StackElement> | undefined = undefined
-) => {
-  let stack: Array<StackElement> = externalStack || [
-    { level: 0, position: [0, values.length] }
-  ]
+const sort = (values: Token[]) => {
+  const [stack, action] = useStack<Stack>()
+  action({ action: 'ADD', value: { level: 0, position: [0, values.length] } })
 
   do {
-    const stackElement = stack.pop()
+    const stackElement = action({ action: 'POP' })
 
     if (stackElement == undefined) {
       break
@@ -128,7 +131,9 @@ const sort = (
     if (nextStack.length == 0) {
       continue
     } else {
-      stack = [...stack, ...nextStack]
+      nextStack.forEach((element) => {
+        action({ action: 'ADD', value: element })
+      })
     }
   } while (stack.length)
 
