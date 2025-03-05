@@ -1,6 +1,5 @@
 import Token from '../../token'
-import { stack as useStack, StackType } from '../../stack'
-import { ac } from 'vitest/dist/chunks/reporters.C_zwCd4j'
+import { stack as useStack } from '../../stack'
 
 type Stack = {
   level: number
