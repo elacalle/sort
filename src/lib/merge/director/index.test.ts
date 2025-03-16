@@ -14,13 +14,13 @@ describe('Director', () => {
 
       const firstRun = new Run(1, evaluator)
       const firstDummyBucket = new DummyBucket(0)
-      firstDummyBucket.addBulk([new Token([4, 1]), new Token([5])])
+      firstDummyBucket.addBulk([new Token(['a', 'b']), new Token(['c'])])
       firstRun.setBucket(firstDummyBucket)
       runs.push(firstRun)
 
       const secondRun = new Run(1, evaluator)
       const secondDummyBucket = new DummyBucket(1)
-      secondDummyBucket.addBulk([new Token([4, 2]), new Token([5, 1])])
+      secondDummyBucket.addBulk([new Token(['a', 'b']), new Token(['c', 'd'])])
       secondRun.setBucket(secondDummyBucket)
       runs.push(secondRun)
 
@@ -37,19 +37,19 @@ describe('Director', () => {
 
     const firstRun = new Run(1, evaluator)
     const firstDummyBucket = new DummyBucket(0)
-    firstDummyBucket.addBulk([new Token([99, 98]), new Token([100])])
+    firstDummyBucket.addBulk([new Token(['c', 'b']), new Token(['d'])])
     firstRun.setBucket(firstDummyBucket)
     runs.push(firstRun)
 
     const secondRun = new Run(2, evaluator)
     const secondDummyBucket = new DummyBucket(1)
-    secondDummyBucket.addBulk([new Token([99, 100]), new Token([100, 99])])
+    secondDummyBucket.addBulk([new Token(['c', 'd']), new Token(['d', 'c'])])
     secondRun.setBucket(secondDummyBucket)
     runs.push(secondRun)
 
     const thirdRun = new Run(3, evaluator)
     const thirdDummyBucket = new DummyBucket(2)
-    thirdDummyBucket.addBulk([new Token([97, 98]), new Token([98])])
+    thirdDummyBucket.addBulk([new Token(['a', 'b']), new Token(['b'])])
     thirdRun.setBucket(thirdDummyBucket)
     runs.push(thirdRun)
 

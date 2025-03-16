@@ -2,47 +2,123 @@ import { describe, test, expect } from 'vitest'
 import { split } from './split'
 import Token from '../../token'
 
-describe('split', () => {
+describe.only('split', () => {
   test('splits the array in lower and higher numbers', () => {
-    let numbers = [
-      new Token([6]),
-      new Token([13]),
-      new Token([5]),
-      new Token([4]),
-      new Token([44]),
-      new Token([2]),
-      new Token([14])
+    let characters = [
+      new Token(['g']),
+      new Token(['a']),
+      new Token(['d']),
+      new Token(['b']),
+      new Token(['f']),
+      new Token(['e']),
+      new Token(['c']),
+      new Token(['h'])
     ]
 
-    const [min, pivot, max] = split(numbers)
+    const [min, pivot, max] = split(characters)
 
-    expect(min).toEqual([new Token([5]), new Token([4]), new Token([2])])
-    expect(pivot).toEqual([new Token([6])])
-    expect(max).toEqual([new Token([13]), new Token([44]), new Token([14])])
+    expect(min).toEqual([
+      new Token(['a']),
+      new Token(['d']),
+      new Token(['b']),
+      new Token(['f']),
+      new Token(['e']),
+      new Token(['c'])
+    ])
+
+    expect(pivot).toEqual([new Token(['g'])])
+
+    expect(max).toEqual([new Token(['h'])])
   })
 
-  test('splits tokens', () => {
-    let tokens = [
-      new Token([1, 1, 2]),
-      new Token([4, 2]),
-      new Token([1]),
-      new Token([4, 0, 1]),
-      new Token([1, 0, 2]),
-      new Token([4, 0, 2]),
-      new Token([6, 0, 2]),
-      new Token([8, 0])
+  test('split should correctly handle a list with a single element', () => {
+    let characters = [new Token(['g'])]
+
+    const [min, pivot, max] = split(characters)
+
+    expect(min).toEqual([])
+    expect(pivot).toEqual([new Token(['g'])])
+    expect(max).toEqual([])
+  })
+
+  test('split should correctly handle an empty list', () => {
+    let characters: Token[] = []
+
+    const [min, pivot, max] = split(characters)
+
+    expect(min).toEqual([])
+    expect(pivot).toEqual([])
+    expect(max).toEqual([])
+  })
+
+  test('split should correctly handle a list with all elements equal', () => {
+    let characters = [new Token(['g']), new Token(['g']), new Token(['g'])]
+
+    const [min, pivot, max] = split(characters)
+
+    expect(min).toEqual([new Token(['g']), new Token(['g'])])
+    expect(pivot).toEqual([new Token(['g'])])
+    expect(max).toEqual([])
+  })
+
+  test('split should correctly handle a list with elements in reverse order', () => {
+    let characters = [
+      new Token(['h']),
+      new Token(['g']),
+      new Token(['f']),
+      new Token(['e']),
+      new Token(['d']),
+      new Token(['c']),
+      new Token(['b']),
+      new Token(['a'])
     ]
 
-    const [min, pivot, max] = split(tokens) as [Token[], Token[], Token[]]
+    const [min, pivot, max] = split(characters)
 
-    expect(min.map((value) => value.getValue())).toEqual([[1], [1, 0, 2]])
-    expect(pivot.map((value) => value.getValue())).toEqual([[1, 1, 2]])
-    expect(max.map((value) => value.getValue())).toEqual([
-      [4, 2],
-      [4, 0, 1],
-      [4, 0, 2],
-      [6, 0, 2],
-      [8, 0]
+    expect(min).toEqual([
+      new Token(['g']),
+      new Token(['f']),
+      new Token(['e']),
+      new Token(['d']),
+      new Token(['c']),
+      new Token(['b']),
+      new Token(['a'])
     ])
+
+    expect(pivot).toEqual([new Token(['h'])])
+
+    expect(max).toEqual([])
+  })
+
+  test('split should correctly handle a list with duplicate elements', () => {
+    let characters = [
+      new Token(['g']),
+      new Token(['a']),
+      new Token(['d']),
+      new Token(['b']),
+      new Token(['f']),
+      new Token(['e']),
+      new Token(['c']),
+      new Token(['h']),
+      new Token(['a']),
+      new Token(['d'])
+    ]
+
+    const [min, pivot, max] = split(characters)
+
+    expect(min).toEqual([
+      new Token(['a']),
+      new Token(['d']),
+      new Token(['b']),
+      new Token(['f']),
+      new Token(['e']),
+      new Token(['c']),
+      new Token(['a']),
+      new Token(['d'])
+    ])
+
+    expect(pivot).toEqual([new Token(['g'])])
+
+    expect(max).toEqual([new Token(['h'])])
   })
 })
