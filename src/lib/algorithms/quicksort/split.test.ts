@@ -2,7 +2,7 @@ import { describe, test, expect } from 'vitest'
 import { split } from './split'
 import Token from '../../token'
 
-describe.only('split', () => {
+describe('split', () => {
   test('splits the array in lower and higher numbers', () => {
     let characters = [
       new Token(['g']),
