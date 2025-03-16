@@ -13,7 +13,7 @@ const split = (list: Token[]): SplittedValues => {
     return x.greatherThan(pivot)
   })
 
-  return [minValues, [pivot], maxValues] as SplittedValues
+  return [minValues, pivot ? [pivot] : [], maxValues] as SplittedValues
 }
 
 const filter = (list: Token[], condition: (x: Token) => boolean) => {

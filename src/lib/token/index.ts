@@ -1,23 +1,25 @@
-const EMPTY_VALUE = 0 // NULL
+const EMPTY_VALUE = '' // NULL
 
 class Token {
-  protected values: Array<number>
+  protected values: Array<string>
+  private coll: Intl.Collator
 
-  constructor(values: Array<number>) {
+  constructor(values: Array<string>) {
     this.values = values
+    this.coll = new Intl.Collator('es-ES')
   }
 
   greatherThan(target: Token) {
-    return this.compare(
-      target,
-      (sourceValue, targetValue) => sourceValue > targetValue
-    )
+    return this.compare(target, (sourceValue, targetValue) => {
+      return this.coll.compare(sourceValue, targetValue) == 1
+    })
   }
 
   lowerThan(target: Token) {
     return this.compare(
       target,
-      (sourceValue, targetValue) => sourceValue < targetValue
+      (sourceValue, targetValue) =>
+        this.coll.compare(sourceValue, targetValue) == -1
     )
   }
 
@@ -40,11 +42,11 @@ class Token {
     return this.equal(target) || this.lowerThan(target)
   }
 
-  compare(target: Token, condition: (x: number, y: number) => boolean) {
+  compare(target: Token, condition: (x: string, y: string) => boolean) {
     let index = 0
     let meetCondition = false
-    let sourceValue = 0
-    let targetValue = 0
+    let sourceValue = ''
+    let targetValue = ''
     const length =
       this.values.length > target.values.length
         ? this.values.length
@@ -67,7 +69,7 @@ class Token {
   }
 
   toString() {
-    return String.fromCharCode(...this.values)
+    return this.values.join('')
   }
 
   at(index: number) {
@@ -75,13 +77,13 @@ class Token {
   }
 
   static fromString(value: string) {
-    const digits = []
+    const characters: string[] = []
 
     for (let i = 0; i < value.length; i++) {
-      digits.push(value.charCodeAt(i))
+      characters.push(value[i])
     }
 
-    return new Token(digits)
+    return new Token(characters)
   }
 }
 
